@@ -1,0 +1,58 @@
+TODO:
+
+Create Symbol table and parse tree
+
+Add float, int, and string to decorated parse tree for operand grammar (see soln from LtCol G)
+
+For variableOperand
+	check if variable was declared
+	check variable defined
+	decorate parse tree
+
+paren expr9 
+	check if node is decorated, if not decorate
+
+pass expr9 
+	check if node is decorated, if not decorate
+
+neation expr8
+	check if expr8 is a number
+	decorate
+
+not expr8
+	check if decorated, if no decorate
+	
+pass expr8 
+	check if decorated, if no decorate
+	
+mult expr7
+	check if both sides are decorated
+	check if both sides are compat types
+	check if both sides are valid mathematical types
+	decorate
+	
+division expr7
+	check if both sides are decorated
+	check if both sides are compat types
+	check if both sides are valid mathematical types
+	check if divisor is 0
+	decorate
+	
+pass expr7
+	check if decorated, if no decorate
+	
+plus expr6
+	check if both sides are decorated
+	check if both sides are compat types
+	check if both sides are valid mathematical types
+	decorate
+
+subtract expr6
+	check if both sides are decorated
+	check if both sides are compat types
+	check if both sides are valid mathematical types
+	decorate
+	
+pass expr6
+	check if decorated, if no decorate
+	
