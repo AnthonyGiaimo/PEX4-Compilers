@@ -47,6 +47,7 @@ plus expr6
 	check if both sides are valid mathematical types
 	decorate
 
+
 subtract expr6
 	check if both sides are decorated
 	check if both sides are compat types
@@ -55,4 +56,52 @@ subtract expr6
 	
 pass expr6
 	check if decorated, if no decorate
+
+lassthan expr5 
+	check if both sides are decorated
+	check if both sides are compat types
+	check if both are valid mathematical types
+
+lessthan or equal to 
+	check if both sides are decorated
+	check if both sides are compat types
+	check if both are valid mathematical types
 	
+greaterthatn expr5 
+	check if both sides are decorated
+	check if both sides are compat types
+	check if both are valid mathematical types
+
+greaterthan or equal to 
+	check if both sides are decorated
+	check if both sides are compat types
+	check if both are valid mathematical types
+
+equal expr4
+	check if both sides are decorated
+	check if both sides are compat types
+	check if both are valid mathematical types
+
+not equal expr4
+	check if both sides are decorated
+	check if both sides are compat types
+	check if both are valid mathematical types
+
+pass expr4
+	chec if decorated, if not decorate
+
+and expr2
+	chec if both sides are decorated
+	check if both sides are compat types
+	check if both sides are booleans
+
+pass expr2
+	check if decorated, if not decorate
+
+or expr1 
+	chec if both sides are decorated
+	check if both sides are compat types
+	check if both sides are booleans
+
+pass expr1
+	check if decorated, if not decorate
