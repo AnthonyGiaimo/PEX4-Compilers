@@ -109,7 +109,7 @@ namespace ToyLanguage.analysis
         //    check if both sides are booleans
 
         //main
-        public override void InAMain(AMainmethod node)
+        public override void InAMain(AMain node)
         {
             //    build def for allowed types
             BasicTypeDefinition intType;
@@ -204,7 +204,7 @@ namespace ToyLanguage.analysis
         //    check if decorated, if not decorate
 
         //in method
-        public override void InAMethod(AOneSubmethod node)
+        public override void InAMethod(AMethod node)
         {
             //    save current symbol table
             _previousSymbolTables.AddFirst(_currentSymbolTable);
@@ -234,19 +234,47 @@ namespace ToyLanguage.analysis
 
 
         }
-            //out mehtod
+        //out mehtod
+        public override void OutAMethod(AMethod node)
+        {
             //    restore previous symbol table
+            _currentSymbolTable = _previousSymbolTables.First();
+            _previousSymbolTables.RemoveFirst();
+
+            Definition def;
+            String methodName = node.GetId().Text;
+
             //    ensure submethod isnt used
-            //    build function def and add to symbol table
-            //    add a param list if allowed
+            if (_currentSymbolTable.TryGetValue(methodName, out def))
+            {
+                Console.WriteLine("[" + node.GetLparen().Line + "] : " + methodName + " is already declared.");
 
-            //constant
-            //    check if type name is defined
-            //    check if type name is defined as a type
-            //    check var name is not defined
-            //    add to global symbolTable
+                //    build function def and add to symbol table 
+            }
+            else
+            {
+                def = new MethodDefinition();
+                def.name = node.GetId().Text;
+                ((MethodDefinition)def).paramList = new List<VariableDefinition>();
 
+                //    add a param list if allowed ****EDIT tHIS****
+                ((MethodDefinition)def).paramList.Clear();
+
+                _currentSymbolTable.Add(methodName, def);
+            }
         }
+        
+        
+        
+        
+
+        //constant
+        //    check if type name is defined
+        //    check if type name is defined as a type
+        //    check var name is not defined
+        //    add to global symbolTable
+
+    }
 }
 
 
