@@ -98,19 +98,7 @@ and expr2
 main
 	build def for allowed types
 	create and seed symbol tables
-
-insubmethod
-	save current symbol table
-	build def allowed by types according to grammar
-	create and seed symbol table
-
-out submehtod
-	restore previous symbol table
-	ensure submethod isnt used
-	build function def and add to symbol table
-		add a param list if allowed
 	
-
 pass expr2
 	check if decorated, if not decorate
 
@@ -121,3 +109,77 @@ or expr1
 
 pass expr1
 	check if decorated, if not decorate
+
+
+main
+	build definitions for allowed types
+	create and seed symbolTable
+
+whilestmt
+	check if expr1 is boolean
+	check if stmts is decorated
+
+else
+	check if decorated, if not decorate
+
+ifstmt
+	check if expr1 is boolean 
+	cehck if stmts is decorated
+
+param
+	check if decorated, if not decorate
+	
+params 
+	check if decorated, if not decorate
+
+functioncall 
+	ensure id has been declared
+	ensure id is a method
+	ensure argument is decorated
+	ensure argument is declared properly
+	ensure argument is not delared twice
+	ensure expr is decorated and proper params
+
+declarestmt
+	check type name is defined
+	check if type name is defined as a type
+	check var name is not defined
+	add to symbol table
+
+already declared assignstmt
+	ensure id was declared
+	ensure id is a variable
+	ensure expr node is decorated
+	ensure expr and ID are same types
+
+declaring assignment
+	check type name is defined
+	check if type name is defined as a type
+	check var name is not defined
+	add to symbol table
+	ensure id is a variable
+	ensure expr node is decorated
+	ensure expr and ID are same types
+
+parameter
+	check if decorated, if not decorate
+
+parameters
+	check if decorated, if not decorate
+
+in method
+	save current symbol table
+	build def allowed by types according to grammar
+	create and seed symbol table
+
+out mehtod
+	restore previous symbol table
+	ensure submethod isnt used
+	build function def and add to symbol table
+	add a param list if allowed
+
+constant
+	check if type name is defined
+	check if type name is defined as a type
+	check var name is not defined
+	add to global symbolTable
