@@ -49,7 +49,7 @@ namespace ToyLanguage.analysis
         //    check if both sides are compat types
         //    check if both sides are valid mathematical types
         //    check if divisor is 0
-	    //    decorate
+        //    decorate
 
         //pass expr7
         //    check if decorated, if no decorate
@@ -109,8 +109,32 @@ namespace ToyLanguage.analysis
         //    check if both sides are booleans
 
         //main
-        //    build def for allowed types
-        //    create and seed symbol tables
+        public override void InAMain(AMainmethod node)
+        {
+            //    build def for allowed types
+            BasicTypeDefinition intType;
+            intType = new BasicTypeDefinition();
+            intType.name = "int";
+
+            BasicTypeDefinition fltType;
+            fltType = new BasicTypeDefinition();
+            fltType.name = "float";
+
+            BasicTypeDefinition boolType;
+            boolType = new BasicTypeDefinition();
+            boolType.name = "boolean";
+
+            StringTypeDefinition stringType = new StringTypeDefinition();
+            stringType.name = "string";
+
+            //    create and seed symbol tables
+            _currentSymbolTable = new Dictionary<string, Definition>();
+            _currentSymbolTable.Add("int", intType);
+            _currentSymbolTable.Add("float", fltType);
+            _currentSymbolTable.Add("boolean", boolType);
+            _currentSymbolTable.Add("string", stringType);
+        }
+
 
         //pass expr2
         //    check if decorated, if not decorate
@@ -132,7 +156,7 @@ namespace ToyLanguage.analysis
         //    check if stmts is decorated
 
         //else
-	    //    check if decorated, if not decorate
+        //    check if decorated, if not decorate
 
         //ifstmt
         //    check if expr1 is boolean
@@ -140,7 +164,7 @@ namespace ToyLanguage.analysis
 
         //param
         //    check if decorated, if not decorate
-	
+
         //params 
         //    check if decorated, if not decorate
 
@@ -180,23 +204,49 @@ namespace ToyLanguage.analysis
         //    check if decorated, if not decorate
 
         //in method
-        //    save current symbol table
-        //    build def allowed by types according to grammar
-        //    create and seed symbol table
+        public override void InAMethod(AOneSubmethod node)
+        {
+            //    save current symbol table
+            _previousSymbolTables.AddFirst(_currentSymbolTable);
 
-        //out mehtod
-        //    restore previous symbol table
-        //    ensure submethod isnt used
-        //    build function def and add to symbol table
-        //    add a param list if allowed
+            //    build def allowed by types according to grammar
+            BasicTypeDefinition intType;
+            intType = new BasicTypeDefinition();
+            intType.name = "int";
 
-        //constant
-        //    check if type name is defined
-        //    check if type name is defined as a type
-        //    check var name is not defined
-        //    add to global symbolTable
+            BasicTypeDefinition fltType;
+            fltType = new BasicTypeDefinition();
+            fltType.name = "float";
 
-    }
+            BasicTypeDefinition boolType;
+            boolType = new BasicTypeDefinition();
+            boolType.name = "boolean";
+
+            StringTypeDefinition stringType = new StringTypeDefinition();
+            stringType.name = "string";
+
+            //    create and seed symbol table
+            _currentSymbolTable = new Dictionary<string, Definition>();
+            _currentSymbolTable.Add("int", intType);
+            _currentSymbolTable.Add("float", fltType);
+            _currentSymbolTable.Add("boolean", boolType);
+            _currentSymbolTable.Add("string", stringType);
+
+
+        }
+            //out mehtod
+            //    restore previous symbol table
+            //    ensure submethod isnt used
+            //    build function def and add to symbol table
+            //    add a param list if allowed
+
+            //constant
+            //    check if type name is defined
+            //    check if type name is defined as a type
+            //    check var name is not defined
+            //    add to global symbolTable
+
+        }
 }
 
 

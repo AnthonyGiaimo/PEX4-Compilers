@@ -12,10 +12,7 @@ namespace ToyLanguage
     public abstract class TypeDefinition : Definition
     {
     }
-    public class IntTypeDefinition : TypeDefinition
-    {
-    }
-    public class FloatTypeDefinition : TypeDefinition
+    public class BasicTypeDefinition : TypeDefinition
     {
     }
     public class StringTypeDefinition : TypeDefinition
