@@ -95,6 +95,22 @@ and expr2
 	check if both sides are compat types
 	check if both sides are booleans
 
+main
+	build def for allowed types
+	create and seed symbol tables
+
+insubmethod
+	save current symbol table
+	build def allowed by types according to grammar
+	create and seed symbol table
+
+out submehtod
+	restore previous symbol table
+	ensure submethod isnt used
+	build function def and add to symbol table
+		add a param list if allowed
+	
+
 pass expr2
 	check if decorated, if not decorate
 
