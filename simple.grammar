@@ -1,0 +1,116 @@
+Package ToyLanguage;
+
+Helpers
+	other = ' ' | 13 | 10 | 12 | 9;
+	whole = ['1' .. '9'];
+	natural = ['0' + whole];
+	letter = [['a' .. 'z'] + ['A' .. 'Z']];
+
+Tokens
+	// Operators
+	plus = '+';
+	mult = '*';
+	negative = '-';
+	division = '/';
+	equalityoperator = '=';
+	lessthan = '<';
+	lessthanorequalto = '<=';
+	greaterthan = '>';
+	greaterthanorequalto = '>=';
+	or = '|';
+	and = '&&';
+	not = '!';
+	
+	// Brackets
+	opencurly = '{';
+	closedcurly = '}';
+	openbracket = '[';
+	closedbracket = ']';
+	openparen = '(';
+	closedparen = ')';
+	
+	// Whitespace
+	blank = other+;
+	
+	// Comparators
+	if = 'if';
+	else = 'else';
+	while = 'while';
+	def = 'def';
+	
+	// Literals
+	integer = '0' | whole (natural)*;
+	float = whole '.' natural* whole 'e' '-'? ('0'|(whole natural*));
+	string = '"' ([[0..0xffff] -[10 + 13]])* '"';
+	
+	constantid = 'const';
+	mainstmt = 'main';
+	comma = ',';
+	
+	// Other
+	assign = ':=';
+	eol = ';';
+	id = letter '_'? ((natural '_'?) | (letter '_'?))*;
+	comment = '//' ([[0 .. 0xffff] - [10 + 13]])*;
+	return = 'return';
+	
+	
+	
+
+Ignored Tokens
+	blank, comment;
+
+Productions
+	//program
+	prog = constants methods main;
+
+	//constant declaration (with recursion)
+	constants = {some} constant constants | {none};
+	constant = constantid [typea]:id [namea]:id assign expr1 eol;
+	
+	//method declaration (with recursion)
+	methods = {some} method methods | {none};
+	method = def id openparen parameters closedparen opencurly stmts closedcurly;
+	
+	//parameter declaration (with recursion) (used for declaring a function)
+	parameters = {multiple} parameter comma parameters | {none};
+	parameter = [type]:id [name]:id;
+	
+	//statement declaration (with recursion)
+	stmts = {multiple} stmts stmt | {empty};
+	stmt = {assign} assignstmt | {decl} declarestmt | {fc} functioncall | {f} ifstmt | {whle} whilestmt;
+	
+	//all types of statements
+	assignstmt = {alreadydelared} id assign expr1 eol | {declaring} [type]:id [name]:id assign expr1 eol;
+	declarestmt = [type]:id [varname]:id eol;
+	functioncall = id openparen params closedparen eol;
+	
+	//param (with recursion) (used for calling a function)
+	params = {multiple} param comma params | {none};
+	param = expr1;
+	
+	
+	ifstmt = if openparen expr1 closedparen opencurly stmts closedcurly elsestmt; 
+	elsestmt = {none} | {else} else opencurly stmts closedcurly;
+	whilestmt = while openparen expr1 closedparen opencurly stmts closedcurly; 
+
+	main = mainstmt openparen closedparen opencurly stmts closedcurly;
+	
+	//the expression binary tree
+	expr1 = {or} expr1 or expr2 | {pass} expr2;
+	expr2 = {and} expr2 and expr4 | {pass} expr4;
+	
+	// While the not is a unary operator, I also want to allow for x != y to be allowed.
+	expr4 = {equal} expr4 equalityoperator expr5 | {notequal} expr4 not equalityoperator expr5 | {pass} expr5;
+	//below only allows for one >, <, etc to be used per call.
+	expr5 = {lessthan} [left]:expr6 lessthan [right]:expr6 | {lessthanorequalto} [left]:expr6 lessthanorequalto [right]:expr6 | {greaterthan} [left]:expr6 greaterthan [right]:expr6 | {greaterthanorequalto} [left]:expr6 greaterthanorequalto [right]:expr6 | {pass} expr6;
+	expr6 = {plus} expr6 plus expr7 | {subtract} expr6 negative expr7 | {pass} expr7;
+	expr7 = {mult} expr7 mult expr8 | {division} expr7 division expr8 | {pass} expr8;
+	
+	// I am allowing for multiple stacking negations
+	expr8 = {negation} negative expr8 | {not} not expr8 | {pass} expr9;
+	expr9 = {paren} openparen expr1 closedparen | {pass} operand;
+	operand = {int} integer | {variable} id | {flt} float | {str} string;
+ 
+ 
+

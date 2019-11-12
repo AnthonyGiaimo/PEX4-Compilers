@@ -55,10 +55,43 @@ namespace ToyLanguage.analysis
         //    check if decorated, if no decorate
 
         //plus expr6
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both sides are valid mathematical types
-        //    decorate
+        public override void OutAPlusExpr6(APlusExpr6 node)
+        {
+            Definition lhs, rhs;
+
+            //    check if both sides are decorated
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr6(), out lhs))
+            {
+                Console.WriteLine("[" + node.GetPlus().Line + "] : left hand side of '+' was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr7(), out rhs))
+            {
+                Console.WriteLine("[" + node.GetPlus().Line + "] : right hand side of '+' was not decorated.");
+
+            //    check if both sides are compat types
+            }
+            else if (!lhs.name.Equals(rhs.name))
+            {
+                Console.WriteLine("[" + node.GetPlus().Line + "] : Type mismatch.  Cannot add " + lhs.name + " to " +
+                    rhs.name + ".");
+
+            //    check if both sides are valid mathematical types
+            }
+            else if (!(lhs is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetPlus().Line + "] : Invalid Type.  Cannot add " + lhs.name + "s.");
+
+            //    decorate
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = lhs.name;
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
 
 
         //subtract expr6
@@ -147,10 +180,6 @@ namespace ToyLanguage.analysis
         //pass expr1
         //    check if decorated, if not decorate
 
-        //main
-        //    build definitions for allowed types
-        //    create and seed symbolTable
-
         //whilestmt
         //    check if expr1 is boolean
         //    check if stmts is decorated
@@ -177,16 +206,70 @@ namespace ToyLanguage.analysis
         //    ensure expr is decorated and proper params
 
         //declarestmt
-        //    check type name is defined
-        //    check if type name is defined as a type
-        //    check var name is not defined
-        //    add to symbol table
+        public override void OutADeclarestmt(ADeclarestmt node)
+        {
+            Definition typeDef, varDef;
+            String typeName = node.GetType().Text;
+            String varName = node.GetVarname().Text;
+            //    check type name is defined
+            if (!_currentSymbolTable.TryGetValue(typeName, out typeDef))
+            {
+                Console.WriteLine("[" + node.GetType().Line + "] : " + typeName + " is not defined.");
+
+            //    check if type name is defined as a type
+            }
+            else if (!(typeDef is TypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetType().Line + "] : " + typeName + " is not a valid type.");
+
+            //    check var name is not defined
+            }
+            else if (_currentSymbolTable.TryGetValue(varName, out varDef))
+            {
+                Console.WriteLine("[" + node.GetVarname().Line + "] : " + varName + " is already defined.");
+
+            //    add to symbol table
+            }
+            else
+            {
+                VariableDefinition newDef = new VariableDefinition();
+                newDef.name = varName;
+                newDef.vartype = (TypeDefinition)typeDef;
+                _currentSymbolTable.Add(varName, newDef);
+            }
+        }
 
         //already declared assignstmt
-        //    ensure id was declared
-        //    ensure id is a variable
-        //    ensure expr node is decorated
-        //    ensure expr and ID are same types
+        public override void OutAAlreadydelaredAssignstmt(AAlreadydelaredAssignstmt node)
+        {
+            Definition idDef, exprDef;
+            String varName = node.GetId().Text;
+
+            //    ensure id was declared
+            if (!_currentSymbolTable.TryGetValue(varName, out idDef))
+            {
+                Console.WriteLine("[" + node.GetId().Line + "] : " + varName + " is not defined.");
+
+            //    ensure id is a variable
+            }
+            else if (!(idDef is VariableDefinition))
+            {
+                Console.WriteLine("[" + node.GetId().Line + "] : " + varName + " is not a valid variable.");
+
+            //    ensure expr node is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr1(), out exprDef))
+            {
+                Console.WriteLine("[" + node.GetId().Line + "] : right hand side was not decorated.");
+
+            //    ensure expr and ID are same types
+            }
+            else if (!exprDef.name.Equals(((VariableDefinition)idDef).vartype.name))
+            {
+                Console.WriteLine("[" + node.GetId().Line + "] : Invalid assignment. Can not assign " + exprDef.name + " to " +
+                    idDef.name + ".");
+            }
+        }
 
         //declaring assignment
         //    check type name is defined
@@ -247,9 +330,9 @@ namespace ToyLanguage.analysis
             //    ensure submethod isnt used
             if (_currentSymbolTable.TryGetValue(methodName, out def))
             {
-                Console.WriteLine("[" + node.GetLparen().Line + "] : " + methodName + " is already declared.");
+                Console.WriteLine("[" + node.GetOpenparen().Line + "] : " + methodName + " is already declared.");
 
-                //    build function def and add to symbol table 
+            //    build function def and add to symbol table 
             }
             else
             {
