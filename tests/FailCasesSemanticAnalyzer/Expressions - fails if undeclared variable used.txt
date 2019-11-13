@@ -1,0 +1,6 @@
+main(){
+
+int one := 1;
+int three := one + two;
+
+}

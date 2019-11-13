@@ -1,0 +1,8 @@
+int one := 1;
+
+
+main(){
+
+int one := 2;
+
+}

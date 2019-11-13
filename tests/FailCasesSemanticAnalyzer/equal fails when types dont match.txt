@@ -1,0 +1,9 @@
+main(){
+
+int one := 1;
+float two := 4.23e3;
+
+if(one = two){
+}
+
+}

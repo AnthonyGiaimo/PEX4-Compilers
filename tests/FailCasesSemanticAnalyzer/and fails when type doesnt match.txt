@@ -1,0 +1,9 @@
+main(){
+
+int one := 1;
+float two := 2.3e-4;
+
+if(one < 3 && two < 2.3e4){
+}
+
+}
