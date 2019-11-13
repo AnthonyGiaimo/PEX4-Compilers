@@ -16,9 +16,54 @@ namespace ToyLanguage.analysis
         Dictionary<Node, Definition> _decoratedParseTree = new Dictionary<Node, Definition>();
 
         //For variableOperand
-        //    check if variable was declared
-        //    check variable defined
-        //    decorate parse tree
+        public override void OutAVariableOperand(AVariableOperand node)
+        {
+
+            Definition varDef;
+            String varName = node.GetId().Text;
+            
+            //    check if variable was declared
+            if (!_currentSymbolTable.TryGetValue(varName, out varDef))
+            {
+                Console.WriteLine("[" + node.GetId().Line + "] : " + varName + " is not defined.");
+
+            //    check variable defined
+            }
+            else if (!(varDef is VariableDefinition))
+            {
+                Console.WriteLine("[" + node.GetId().Line + "] : " + varName + " is not a valid variable.");
+
+            //    decorate parse tree
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, ((VariableDefinition)varDef).vartype);
+            }
+        }
+        
+        public override void OutAIntOperand(AIntOperand node)
+        {
+            // decorate this node
+            BasicTypeDefinition intDef = new BasicTypeDefinition();
+            intDef.name = "int";
+            _decoratedParseTree.Add(node, intDef);
+        }
+
+        public override void OutAStrOperand(AStrOperand node)
+        {
+            // decorate this node
+            BasicTypeDefinition intDef = new BasicTypeDefinition();
+            intDef.name = "str";
+            _decoratedParseTree.Add(node, intDef);
+        }
+
+        public override void OutAFltOperand(AFltOperand node)
+        {
+            // decorate this node
+            BasicTypeDefinition intDef = new BasicTypeDefinition();
+            intDef.name = "flt";
+            _decoratedParseTree.Add(node, intDef);
+        }
 
         //paren expr9
         //    check if node is decorated, if not decorate
@@ -26,7 +71,7 @@ namespace ToyLanguage.analysis
         //pass expr9
         //    check if node is decorated, if not decorate
 
-        //neation expr8
+        //negation expr8
         //    check if expr8 is a number
         //    decorate
 
@@ -173,6 +218,37 @@ namespace ToyLanguage.analysis
         //    check if decorated, if not decorate
 
         //or expr1
+        public override void OutAOrExpr1(AOrExpr1 node)
+        {
+            Definition lhs, rhs;
+
+            //    check if both sides are decorated
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr1(), out lhs))
+            {
+                Console.WriteLine("[" + node.GetOr().Line + "] : left hand side of 'or' was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr2(), out rhs))
+            {
+                Console.WriteLine("[" + node.GetOr().Line + "] : right hand side of 'or' was not decorated.");
+
+                //    check if both sides are bool types
+            }
+            else if (!lhs.name.Equals("boolean") && !rhs.name.Equals("boolean"))
+            {
+                Console.WriteLine("[" + node.GetOr().Line + "] : Type mismatch.  Cannot or " + lhs.name + " to " +
+                    rhs.name + " because one isnt a boolean.");
+
+                //    decorate
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = lhs.name;
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
         //    check if both sides are decorated
         //    check if both sides are compat types
         //    check if both sides are booleans
@@ -198,12 +274,35 @@ namespace ToyLanguage.analysis
         //    check if decorated, if not decorate
 
         //functioncall
-        //    ensure id has been declared
-        //    ensure id is a method
-        //    ensure argument is decorated
-        //    ensure argument is declared properly
-        //    ensure argument is not delared twice
-        //    ensure expr is decorated and proper params
+        public override void OutAFunctioncall(AFunctioncall node)
+        {
+            Definition idDef, exprDef;
+            String funcName = node.GetId().Text;
+
+            //    ensure id has been declared
+            if (!_currentSymbolTable.TryGetValue(funcName, out idDef))
+            {
+                Console.WriteLine("[" + node.GetId().Line + "] : " + funcName + " is not defined.");
+
+            //    ensure id is a method
+            }
+            else if (!(idDef is MethodDefinition))
+            {
+                Console.WriteLine("[" + node.GetId().Line + "] : " + funcName + " is not a method.");
+
+            //    ensure argument is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetParams(), out exprDef))
+            {
+                Console.WriteLine("[" + node.GetId().Line + "] : argument was not decorated.");
+
+            // Ensure that expr is a string or basic type
+            }
+            else if (!(exprDef is StringTypeDefinition) || !(exprDef is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetId().Line + "] : language only allows strings and basic types as arguments.");
+            }
+        }
 
         //declarestmt
         public override void OutADeclarestmt(ADeclarestmt node)
@@ -346,10 +445,11 @@ namespace ToyLanguage.analysis
                 _currentSymbolTable.Add(methodName, def);
             }
         }
-        
-        
-        
-        
+        public override void CaseEOF(EOF node)
+        {
+            base.CaseEOF(node);
+            Console.WriteLine("Semantic Analyzation complete.");
+        }
 
         //constant
         //    check if type name is defined
@@ -359,6 +459,3 @@ namespace ToyLanguage.analysis
 
     }
 }
-
-
-//  Start -> id + start;
