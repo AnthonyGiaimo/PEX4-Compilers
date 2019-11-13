@@ -21,9 +21,36 @@ namespace ToyLanguage.analysis
         //    decorate parse tree
 
         //paren expr9
-        //    check if node is decorated, if not decorate
+        public override void OutAParenExpr9(AParenExpr9 node)
+        {
+            Definition expr1Def;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr1(), out expr1Def))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, expr1Def);
+            }
+        }
 
         //pass expr9
+        public override void OutAPassExpr9(APassExpr9 node)
+        {
+            Definition operandDef;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetOperand(), out operandDef))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, operandDef);
+            }
+        }
         //    check if node is decorated, if not decorate
 
         //neation expr8
@@ -35,24 +62,115 @@ namespace ToyLanguage.analysis
 
 
         //pass expr8
-        //    check if decorated, if no decorate
+        public override void OutAPassExpr8(APassExpr8 node)
+        {
+            Definition expr9Def;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr9(), out expr9Def))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, expr9Def);
+            }
+        }
 
 
         //mult expr7
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both sides are valid mathematical types
-        //    decorate
+        public override void OutAMultExpr7(AMultExpr7 node)
+        {
+            Definition lhs, rhs;
+
+            //    check if both sides are decorated
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr7(), out lhs))
+            {
+                Console.WriteLine("[" + node.GetMult().Line + "] : left hand side of '+' was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr8(), out rhs))
+            {
+                Console.WriteLine("[" + node.GetMult().Line + "] : right hand side of '+' was not decorated.");
+
+                //    check if both sides are compat types
+            }
+            else if (!lhs.name.Equals(rhs.name))
+            {
+                Console.WriteLine("[" + node.GetMult().Line + "] : Type mismatch.  Cannot add " + lhs.name + " to " +
+                    rhs.name + ".");
+
+                //    check if both sides are valid mathematical types
+            }
+            else if (!(lhs is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetMult().Line + "] : Invalid Type.  Cannot add " + lhs.name + "s.");
+
+                //    decorate
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = lhs.name;
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
 
         //division expr7
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both sides are valid mathematical types
-        //    check if divisor is 0
-        //    decorate
+        public override void OutADivisionExpr7(ADivisionExpr7 node)
+        {
+            Definition lhs, rhs;
+
+            //    check if both sides are decorated
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr7(), out lhs))
+            {
+                Console.WriteLine("[" + node.GetDivision().Line + "] : left hand side of '+' was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr8(), out rhs))
+            {
+                Console.WriteLine("[" + node.GetDivision().Line + "] : right hand side of '+' was not decorated.");
+
+                //    check if both sides are compat types
+            }
+            else if (!lhs.name.Equals(rhs.name))
+            {
+                Console.WriteLine("[" + node.GetDivision().Line + "] : Type mismatch.  Cannot add " + lhs.name + " to " +
+                    rhs.name + ".");
+
+                //    check if both sides are valid mathematical types
+            }
+            else if (!(lhs is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetDivision().Line + "] : Invalid Type.  Cannot add " + lhs.name + "s.");
+
+                //    decorate
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = lhs.name;
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
 
         //pass expr7
-        //    check if decorated, if no decorate
+        public override void OutAPassExpr7(APassExpr7 node)
+        {
+            Definition expr8Def;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr8(), out expr8Def))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, expr8Def);
+            }
+        }
 
         //plus expr6
         public override void OutAPlusExpr6(APlusExpr6 node)
@@ -95,13 +213,61 @@ namespace ToyLanguage.analysis
 
 
         //subtract expr6
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both sides are valid mathematical types
-        //    decorate
+        public override void OutASubtractExpr6(ASubtractExpr6 node)
+        {
+            Definition lhs, rhs;
+
+            //    check if both sides are decorated
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr6(), out lhs))
+            {
+                Console.WriteLine("[" + node.GetNegative().Line + "] : left hand side of '+' was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr7(), out rhs))
+            {
+                Console.WriteLine("[" + node.GetNegative().Line + "] : right hand side of '+' was not decorated.");
+
+                //    check if both sides are compat types
+            }
+            else if (!lhs.name.Equals(rhs.name))
+            {
+                Console.WriteLine("[" + node.GetNegative().Line + "] : Type mismatch.  Cannot add " + lhs.name + " to " +
+                    rhs.name + ".");
+
+                //    check if both sides are valid mathematical types
+            }
+            else if (!(lhs is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetNegative().Line + "] : Invalid Type.  Cannot add " + lhs.name + "s.");
+
+                //    decorate
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = lhs.name;
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
+
 
         //pass expr6
         //    check if decorated, if no decorate
+        public override void OutAPassExpr6(APassExpr6 node)
+        {
+            Definition expr7Def;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr7(), out expr7Def))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, expr7Def);
+            }
+        }
 
         //lassthan expr5
         //    check if both sides are decorated
@@ -123,6 +289,22 @@ namespace ToyLanguage.analysis
         //    check if both sides are compat types
         //    check if both are valid mathematical types
 
+        //pass expr5
+        public override void OutAPassExpr5(APassExpr5 node)
+        {
+            Definition expr6Def;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr6(), out expr6Def))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, expr6Def);
+            }
+        }
+
         //equal expr4
         //    check if both sides are decorate
         //    check if both sides are compat types
@@ -134,12 +316,63 @@ namespace ToyLanguage.analysis
         //    check if both are valid mathematical types
 
         //pass expr4
-        //    check if decorated, if not decorate
+        public override void OutAPassExpr4(APassExpr4 node)
+        {
+            Definition expr5Def;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr5(), out expr5Def))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, expr5Def);
+            }
+        }
 
         //and expr2
         //    check if both sides are decorated
         //    check if both sides are compat types
         //    check if both sides are booleans
+
+
+        //pass expr2
+        public override void OutAPassExpr2(APassExpr2 node)
+        {
+            Definition expr4Def;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr4(), out expr4Def))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, expr4Def);
+            }
+        }
+
+        //or expr1
+        //    check if both sides are decorated
+        //    check if both sides are compat types
+        //    check if both sides are booleans
+
+        //pass expr1
+        public override void OutAPassExpr1(APassExpr1 node)
+        {
+            Definition expr2Def;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr2(), out expr2Def))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, expr2Def);
+            }
+        }
 
         //main
         public override void InAMain(AMain node)
@@ -167,18 +400,6 @@ namespace ToyLanguage.analysis
             _currentSymbolTable.Add("boolean", boolType);
             _currentSymbolTable.Add("string", stringType);
         }
-
-
-        //pass expr2
-        //    check if decorated, if not decorate
-
-        //or expr1
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both sides are booleans
-
-        //pass expr1
-        //    check if decorated, if not decorate
 
         //whilestmt
         //    check if expr1 is boolean
