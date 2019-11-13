@@ -1,0 +1,8 @@
+main(){
+
+string one := "one";
+string two := "two";
+
+string three := one - two;
+
+}

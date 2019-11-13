@@ -1,0 +1,6 @@
+float x := 3.5e6;
+int x := 4;
+
+main(){
+
+}

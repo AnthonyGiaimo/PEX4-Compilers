@@ -1,0 +1,9 @@
+def idk(float y, float z){
+}
+
+
+main(){
+
+idk(3, 2);
+
+}
