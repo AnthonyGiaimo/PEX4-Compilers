@@ -405,9 +405,36 @@ namespace ToyLanguage.analysis
         }
 
         //and expr2
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both sides are booleans
+        public override void OutAAndExpr2(AAndExpr2 node)
+        {
+            Definition lhs, rhs;
+
+            //    check if both sides are decorated
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr2(), out lhs))
+            {
+                Console.WriteLine("[" + node.GetAnd().Line + "] : left hand side of 'and' was not decorated.");
+
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr4(), out rhs))
+            {
+                Console.WriteLine("[" + node.GetAnd().Line + "] : right hand side of 'and' was not decorated.");
+
+            //    check if both sides are bool types
+            }
+            else if (!lhs.name.Equals("boolean") && !rhs.name.Equals("boolean"))
+            {
+                Console.WriteLine("[" + node.GetAnd().Line + "] : Type mismatch.  Cannot or " + lhs.name + " to " +
+                    rhs.name + " because one isnt a boolean.");
+
+            //    decorate
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = lhs.name;
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
 
 
         //pass expr2
@@ -425,11 +452,6 @@ namespace ToyLanguage.analysis
                 _decoratedParseTree.Add(node, expr4Def);
             }
         }
-
-        //or expr1
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both sides are booleans
 
         //pass expr1
         public override void OutAPassExpr1(APassExpr1 node)
