@@ -12,7 +12,7 @@ namespace ToyLanguage.analysis
         LinkedList<Dictionary<string, Definition>> _previousSymbolTables = new LinkedList<Dictionary<string, Definition>>();
         Dictionary<string, Definition> _currentSymbolTable = new Dictionary<string, Definition>();
         Dictionary<string, Definition> _globalSymbolTable = new Dictionary<string, Definition>();
-
+        List<VariableDefinition> _currentParamList = new List<VariableDefinition>();
 
         // ParseTree Decoration
         Dictionary<Node, Definition> _decoratedParseTree = new Dictionary<Node, Definition>();
@@ -1010,6 +1010,7 @@ namespace ToyLanguage.analysis
                 newDef.name = varName;
                 newDef.vartype = (TypeDefinition)typeDef;
                 _currentSymbolTable.Add(varName, newDef);
+                _currentParamList.Add(newDef);
                 
             }
         }
@@ -1041,6 +1042,9 @@ namespace ToyLanguage.analysis
         {
             //    save current symbol table
             _previousSymbolTables.AddFirst(_currentSymbolTable);
+
+            //    build new param list
+            _currentParamList = new List<VariableDefinition>();
 
             //    build def allowed by types according to grammar
             BasicTypeDefinition intType;
@@ -1088,7 +1092,7 @@ namespace ToyLanguage.analysis
             {
                 def = new MethodDefinition();
                 def.name = node.GetId().Text;
-                ((MethodDefinition)def).paramList = new List<VariableDefinition>();
+                ((MethodDefinition)def).paramList = _currentParamList;
 
                 _currentSymbolTable.Add(methodName, def);
             }
