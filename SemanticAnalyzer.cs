@@ -530,8 +530,22 @@ namespace ToyLanguage.analysis
         }
 
         //whilestmt
-        //    check if expr1 is boolean
-        //    check if stmts is decorated
+        public override void InAWhilestmt(AWhilestmt node)
+        {
+            Definition expr1Def;
+
+            //    check if both sides are decorated
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr1(), out expr1Def))
+            {
+                Console.WriteLine("[" + node.GetClosedparen().Line + "] : left hand side of 'or' was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!(expr1Def.name.Equals("boolean")))
+            {
+                Console.WriteLine("[" + node.GetClosedparen().Line + "] : Type mismatch." + expr1Def.name + " isnt a boolean.");
+            }
+        }
 
         //else
         //    check if decorated, if not decorate
