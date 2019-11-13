@@ -53,12 +53,42 @@ namespace ToyLanguage.analysis
         }
         //    check if node is decorated, if not decorate
 
-        //neation expr8
+        //negation expr8
+        public override void OutANegationExpr8(ANegationExpr8 node)
+        {
+            Definition expr8Def;
+
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr8(), out expr8Def))
+            {
+                Console.WriteLine("[" + node.GetNegative().Line + "] : expr8 was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!(expr8Def is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetNegative().Line + "] : Invalid Type.  Cannot add " + expr8Def.name + "s.");
+
+                //    decorate
+            }
+        }
         //    check if expr8 is a number
         //    decorate
 
         //not expr8
-        //    check if decorated, if no decorate
+        public override void OutANotExpr8(ANotExpr8 node)
+        {
+            Definition expr8Def;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr8(), out expr8Def))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, expr8Def);
+            }
+        }
 
 
         //pass expr8
