@@ -111,7 +111,7 @@ namespace ToyLanguage.analysis
             }
             else if (!(expr8Def is BasicTypeDefinition))
             {
-                Console.WriteLine("[" + node.GetNegative().Line + "] : Invalid Type.  Cannot add " + expr8Def.name + "s.");
+                Console.WriteLine("[" + node.GetNegative().Line + "] : Invalid Type.  Cannot negate " + expr8Def.name + "s.");
 
                 //    decorate
             }
@@ -157,31 +157,32 @@ namespace ToyLanguage.analysis
             Definition lhs, rhs;
 
             //    check if both sides are decorated
+            // Ensure rhs of the plus is decorated
             if (!_decoratedParseTree.TryGetValue(node.GetExpr7(), out lhs))
             {
-                Console.WriteLine("[" + node.GetMult().Line + "] : left hand side of '+' was not decorated.");
-
-                // Ensure rhs of the plus is decorated
+                Console.WriteLine("[" + node.GetMult().Line + "] : left hand side of 'x' was not decorated.");
+ 
             }
+            //    check if both sides are compat types
             else if (!_decoratedParseTree.TryGetValue(node.GetExpr8(), out rhs))
             {
-                Console.WriteLine("[" + node.GetMult().Line + "] : right hand side of '+' was not decorated.");
-
-                //    check if both sides are compat types
+                Console.WriteLine("[" + node.GetMult().Line + "] : right hand side of 'x' was not decorated.");
+   
             }
+            // Check if both types are equal
             else if (!lhs.name.Equals(rhs.name))
             {
-                Console.WriteLine("[" + node.GetMult().Line + "] : Type mismatch.  Cannot add " + lhs.name + " to " +
+                Console.WriteLine("[" + node.GetMult().Line + "] : Type mismatch.  Cannot multiply " + lhs.name + " to " +
                     rhs.name + ".");
 
-                //    check if both sides are valid mathematical types
             }
+            //  Check if the left hand type is valid
             else if (!(lhs is BasicTypeDefinition))
             {
-                Console.WriteLine("[" + node.GetMult().Line + "] : Invalid Type.  Cannot add " + lhs.name + "s.");
+                Console.WriteLine("[" + node.GetMult().Line + "] : Invalid Type.  Cannot multiply " + lhs.name + "s.");
 
-                //    decorate
             }
+            //    decorate
             else
             {
                 TypeDefinition currNodeType = new BasicTypeDefinition();
@@ -196,31 +197,33 @@ namespace ToyLanguage.analysis
             Definition lhs, rhs;
 
             //    check if both sides are decorated
+            // Ensure lhs of the plus is decorated
             if (!_decoratedParseTree.TryGetValue(node.GetExpr7(), out lhs))
             {
-                Console.WriteLine("[" + node.GetDivision().Line + "] : left hand side of '+' was not decorated.");
+                Console.WriteLine("[" + node.GetDivision().Line + "] : left hand side of '/' was not decorated.");
 
-                // Ensure rhs of the plus is decorated
             }
+            // Ensure rhs of the plus is decorated
             else if (!_decoratedParseTree.TryGetValue(node.GetExpr8(), out rhs))
             {
-                Console.WriteLine("[" + node.GetDivision().Line + "] : right hand side of '+' was not decorated.");
-
-                //    check if both sides are compat types
+                Console.WriteLine("[" + node.GetDivision().Line + "] : right hand side of '/' was not decorated.");
+ 
             }
+            //    check if both sides are equal types
             else if (!lhs.name.Equals(rhs.name))
             {
-                Console.WriteLine("[" + node.GetDivision().Line + "] : Type mismatch.  Cannot add " + lhs.name + " to " +
+                Console.WriteLine("[" + node.GetDivision().Line + "] : Type mismatch.  Cannot divide " + lhs.name + " to " +
                     rhs.name + ".");
 
-                //    check if both sides are valid mathematical types
+                
             }
+            //    check if left side is a valid type
             else if (!(lhs is BasicTypeDefinition))
             {
-                Console.WriteLine("[" + node.GetDivision().Line + "] : Invalid Type.  Cannot add " + lhs.name + "s.");
+                Console.WriteLine("[" + node.GetDivision().Line + "] : Invalid Type.  Cannot divide " + lhs.name + "s.");
 
-                //    decorate
             }
+            //    decorate
             else
             {
                 TypeDefinition currNodeType = new BasicTypeDefinition();
@@ -251,31 +254,32 @@ namespace ToyLanguage.analysis
             Definition lhs, rhs;
 
             //    check if both sides are decorated
+            // Ensure lhs of the plus is decorated
             if (!_decoratedParseTree.TryGetValue(node.GetExpr6(), out lhs))
             {
                 Console.WriteLine("[" + node.GetPlus().Line + "] : left hand side of '+' was not decorated.");
 
-                // Ensure rhs of the plus is decorated
             }
+            // Ensure rhs of the plus is decorated
             else if (!_decoratedParseTree.TryGetValue(node.GetExpr7(), out rhs))
             {
                 Console.WriteLine("[" + node.GetPlus().Line + "] : right hand side of '+' was not decorated.");
 
-            //    check if both sides are compat types
             }
+            //    check if both sides equal types
             else if (!lhs.name.Equals(rhs.name))
             {
                 Console.WriteLine("[" + node.GetPlus().Line + "] : Type mismatch.  Cannot add " + lhs.name + " to " +
                     rhs.name + ".");
 
-            //    check if both sides are valid mathematical types
             }
+            //    check if left side is a valid type
             else if (!(lhs is BasicTypeDefinition))
             {
                 Console.WriteLine("[" + node.GetPlus().Line + "] : Invalid Type.  Cannot add " + lhs.name + "s.");
 
-            //    decorate
             }
+            //    decorate
             else
             {
                 TypeDefinition currNodeType = new BasicTypeDefinition();
@@ -291,31 +295,32 @@ namespace ToyLanguage.analysis
             Definition lhs, rhs;
 
             //    check if both sides are decorated
+            // Ensure lhs of the plus is decorated
             if (!_decoratedParseTree.TryGetValue(node.GetExpr6(), out lhs))
             {
-                Console.WriteLine("[" + node.GetNegative().Line + "] : left hand side of '+' was not decorated.");
+                Console.WriteLine("[" + node.GetNegative().Line + "] : left hand side of '-' was not decorated.");
 
-                // Ensure rhs of the plus is decorated
             }
+            // Ensure rhs of the plus is decorated
             else if (!_decoratedParseTree.TryGetValue(node.GetExpr7(), out rhs))
             {
-                Console.WriteLine("[" + node.GetNegative().Line + "] : right hand side of '+' was not decorated.");
+                Console.WriteLine("[" + node.GetNegative().Line + "] : right hand side of '-' was not decorated.");
 
-                //    check if both sides are compat types
             }
+            //    check if both sides are equal types
             else if (!lhs.name.Equals(rhs.name))
             {
-                Console.WriteLine("[" + node.GetNegative().Line + "] : Type mismatch.  Cannot add " + lhs.name + " to " +
+                Console.WriteLine("[" + node.GetNegative().Line + "] : Type mismatch.  Cannot subtract " + lhs.name + " to " +
                     rhs.name + ".");
 
-                //    check if both sides are valid mathematical types
             }
+            //    check if left hand type is valid
             else if (!(lhs is BasicTypeDefinition))
             {
-                Console.WriteLine("[" + node.GetNegative().Line + "] : Invalid Type.  Cannot add " + lhs.name + "s.");
-
-                //    decorate
+                Console.WriteLine("[" + node.GetNegative().Line + "] : Invalid Type.  Cannot subtract " + lhs.name + "s.");
+ 
             }
+            //    decorate
             else
             {
                 TypeDefinition currNodeType = new BasicTypeDefinition();
@@ -342,25 +347,158 @@ namespace ToyLanguage.analysis
             }
         }
 
-        //lassthan expr5
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both are valid mathematical types
+        //lessthan expr5
+        public override void OutALessthanExpr5(ALessthanExpr5 node)
+        {
+            Definition leftExpr6Def, rightExpr6Def;
+
+            if (!_decoratedParseTree.TryGetValue(node.GetLeft(), out leftExpr6Def))
+            {
+                Console.WriteLine("[" + node.GetLessthan().Line + "] : left side was not decorated.");
+
+                // Ensure lhs of the plus is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetRight(), out rightExpr6Def))
+            {
+                Console.WriteLine("[" + node.GetLessthan().Line + "] : right side was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!(leftExpr6Def is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetLessthan().Line + "] : Invalid Type.  Cannot add " + leftExpr6Def.name + "s.");
+
+                // Check if the left hand side is a valid type
+            }
+            else if (!leftExpr6Def.name.Equals(rightExpr6Def.name))
+            {
+                Console.WriteLine("[" + node.GetLessthan().Line + "] : Type mismatch.  Cannot add " + leftExpr6Def.name + " to " +
+                    rightExpr6Def.name + ".");
+
+                // Check if types are equal
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = "boolean";
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
 
         //lessthan or equal to
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both are valid mathematical types
+        public override void OutALessthanorequaltoExpr5(ALessthanorequaltoExpr5 node)
+        {
+            Definition leftExpr6Def, rightExpr6Def;
 
-        //greaterthatn expr5
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both are valid mathematical types
+            if (!_decoratedParseTree.TryGetValue(node.GetLeft(), out leftExpr6Def))
+            {
+                Console.WriteLine("[" + node.GetLessthanorequalto().Line + "] : left side was not decorated.");
+
+                // Ensure lhs of the plus is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetRight(), out rightExpr6Def))
+            {
+                Console.WriteLine("[" + node.GetLessthanorequalto().Line + "] : right side was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!(leftExpr6Def is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetLessthanorequalto().Line + "] : Invalid Type.  Cannot add " + leftExpr6Def.name + "s.");
+
+                // Check if the left hand side is a valid type
+            }
+            else if (!leftExpr6Def.name.Equals(rightExpr6Def.name))
+            {
+                Console.WriteLine("[" + node.GetLessthanorequalto().Line + "] : Type mismatch.  Cannot add " + leftExpr6Def.name + " to " +
+                    rightExpr6Def.name + ".");
+
+                // Check if types are equal
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = "boolean";
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
+
+        //greaterthan expr5
+        public override void OutAGreaterthanExpr5(AGreaterthanExpr5 node)
+        {
+            Definition leftExpr6Def, rightExpr6Def;
+
+            if (!_decoratedParseTree.TryGetValue(node.GetLeft(), out leftExpr6Def))
+            {
+                Console.WriteLine("[" + node.GetGreaterthan().Line + "] : left side was not decorated.");
+
+                // Ensure lhs of the plus is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetRight(), out rightExpr6Def))
+            {
+                Console.WriteLine("[" + node.GetGreaterthan().Line + "] : right side was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!(leftExpr6Def is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetGreaterthan().Line + "] : Invalid Type.  Cannot add " + leftExpr6Def.name + "s.");
+
+                // Check if the left hand side is a valid type
+            }
+            else if (!leftExpr6Def.name.Equals(rightExpr6Def.name))
+            {
+                Console.WriteLine("[" + node.GetGreaterthan().Line + "] : Type mismatch.  Cannot add " + leftExpr6Def.name + " to " +
+                    rightExpr6Def.name + ".");
+
+                // Check if types are equal
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = "boolean";
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
+
 
         //greaterthan or equal to
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both are valid mathematical types
+        public override void OutAGreaterthanorequaltoExpr5(AGreaterthanorequaltoExpr5 node)
+        {
+            Definition leftExpr6Def, rightExpr6Def;
+
+            if (!_decoratedParseTree.TryGetValue(node.GetLeft(), out leftExpr6Def))
+            {
+                Console.WriteLine("[" + node.GetGreaterthanorequalto().Line + "] : left side was not decorated.");
+
+                // Ensure lhs of the plus is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetRight(), out rightExpr6Def))
+            {
+                Console.WriteLine("[" + node.GetGreaterthanorequalto().Line + "] : right side was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!(leftExpr6Def is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetGreaterthanorequalto().Line + "] : Invalid Type.  Cannot add " + leftExpr6Def.name + "s.");
+
+                // Check if the left hand side is a valid type
+            }
+            else if (!leftExpr6Def.name.Equals(rightExpr6Def.name))
+            {
+                Console.WriteLine("[" + node.GetGreaterthanorequalto().Line + "] : Type mismatch.  Cannot add " + leftExpr6Def.name + " to " +
+                    rightExpr6Def.name + ".");
+
+                // Check if types are equal
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = "boolean";
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
 
         //pass expr5
         public override void OutAPassExpr5(APassExpr5 node)
@@ -379,14 +517,82 @@ namespace ToyLanguage.analysis
         }
 
         //equal expr4
-        //    check if both sides are decorate
-        //    check if both sides are compat types
-        //    check if both are valid mathematical types
+        public override void OutAEqualExpr4(AEqualExpr4 node)
+        {
+            Definition leftExpr4Def, rightExpr5Def;
+
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr4(), out leftExpr4Def))
+            {
+                Console.WriteLine("[" + node.GetEqualityoperator().Line + "] : left side was not decorated.");
+
+                // Ensure lhs of the plus is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr5(), out rightExpr5Def))
+            {
+                Console.WriteLine("[" + node.GetEqualityoperator().Line + "] : right side was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!(leftExpr4Def is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetEqualityoperator().Line + "] : Invalid Type.  Cannot add " + leftExpr4Def.name + "s.");
+
+                // Check if the left hand side is a valid type
+            }
+            else if (!leftExpr4Def.name.Equals(rightExpr5Def.name))
+            {
+                Console.WriteLine("[" + node.GetEqualityoperator().Line + "] : Type mismatch.  Cannot add " + leftExpr4Def.name + " to " +
+                    rightExpr5Def.name + ".");
+
+                // Check if types are equal
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = "boolean";
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
+
 
         //not equal expr4
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both are valid mathematical types
+        public override void OutANotequalExpr4(ANotequalExpr4 node)
+        {
+            Definition leftExpr4Def, rightExpr5Def;
+
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr4(), out leftExpr4Def))
+            {
+                Console.WriteLine("[" + node.GetNot().Line + node.GetEqualityoperator().Line + "] : left side was not decorated.");
+
+                // Ensure lhs of the plus is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr5(), out rightExpr5Def))
+            {
+                Console.WriteLine("[" + node.GetNot().Line + node.GetEqualityoperator().Line + "] : right side was not decorated.");
+
+                // Ensure rhs of the plus is decorated
+            }
+            else if (!(leftExpr4Def is BasicTypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetNot().Line + node.GetEqualityoperator().Line + "] : Invalid Type.  Cannot add " + leftExpr4Def.name + "s.");
+
+                // Check if the left hand side is a valid type
+            }
+            else if (!leftExpr4Def.name.Equals(rightExpr5Def.name))
+            {
+                Console.WriteLine("[" + node.GetNot().Line + node.GetEqualityoperator().Line + "] : Type mismatch.  Cannot add " + leftExpr4Def.name + " to " +
+                    rightExpr5Def.name + ".");
+
+                // Check if types are equal
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = "boolean";
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
+
 
         //pass expr4
         public override void OutAPassExpr4(APassExpr4 node)
