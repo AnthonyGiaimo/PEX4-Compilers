@@ -11,6 +11,8 @@ namespace ToyLanguage.analysis
         // Symbol Tables
         LinkedList<Dictionary<string, Definition>> _previousSymbolTables = new LinkedList<Dictionary<string, Definition>>();
         Dictionary<string, Definition> _currentSymbolTable = new Dictionary<string, Definition>();
+        Dictionary<string, Definition> _globalSymbolTable = new Dictionary<string, Definition>();
+
 
         // ParseTree Decoration
         Dictionary<Node, Definition> _decoratedParseTree = new Dictionary<Node, Definition>();
@@ -23,7 +25,7 @@ namespace ToyLanguage.analysis
             String varName = node.GetId().Text;
             
             //    check if variable was declared
-            if (!_currentSymbolTable.TryGetValue(varName, out varDef))
+            if (!_currentSymbolTable.TryGetValue(varName, out varDef) || !_globalSymbolTable.TryGetValue(varName, out varDef))
             {
                 Console.WriteLine("[" + node.GetId().Line + "] : " + varName + " is not defined.");
 
@@ -366,13 +368,13 @@ namespace ToyLanguage.analysis
             }
             else if (!(leftExpr6Def is BasicTypeDefinition))
             {
-                Console.WriteLine("[" + node.GetLessthan().Line + "] : Invalid Type.  Cannot add " + leftExpr6Def.name + "s.");
+                Console.WriteLine("[" + node.GetLessthan().Line + "] : Invalid Type.  Cannot compare " + leftExpr6Def.name + "s.");
 
                 // Check if the left hand side is a valid type
             }
             else if (!leftExpr6Def.name.Equals(rightExpr6Def.name))
             {
-                Console.WriteLine("[" + node.GetLessthan().Line + "] : Type mismatch.  Cannot add " + leftExpr6Def.name + " to " +
+                Console.WriteLine("[" + node.GetLessthan().Line + "] : Type mismatch.  Cannot compare " + leftExpr6Def.name + " to " +
                     rightExpr6Def.name + ".");
 
                 // Check if types are equal
@@ -404,13 +406,13 @@ namespace ToyLanguage.analysis
             }
             else if (!(leftExpr6Def is BasicTypeDefinition))
             {
-                Console.WriteLine("[" + node.GetLessthanorequalto().Line + "] : Invalid Type.  Cannot add " + leftExpr6Def.name + "s.");
+                Console.WriteLine("[" + node.GetLessthanorequalto().Line + "] : Invalid Type.  Cannot compare " + leftExpr6Def.name + "s.");
 
                 // Check if the left hand side is a valid type
             }
             else if (!leftExpr6Def.name.Equals(rightExpr6Def.name))
             {
-                Console.WriteLine("[" + node.GetLessthanorequalto().Line + "] : Type mismatch.  Cannot add " + leftExpr6Def.name + " to " +
+                Console.WriteLine("[" + node.GetLessthanorequalto().Line + "] : Type mismatch.  Cannot compare " + leftExpr6Def.name + " to " +
                     rightExpr6Def.name + ".");
 
                 // Check if types are equal
@@ -442,13 +444,13 @@ namespace ToyLanguage.analysis
             }
             else if (!(leftExpr6Def is BasicTypeDefinition))
             {
-                Console.WriteLine("[" + node.GetGreaterthan().Line + "] : Invalid Type.  Cannot add " + leftExpr6Def.name + "s.");
+                Console.WriteLine("[" + node.GetGreaterthan().Line + "] : Invalid Type.  Cannot compare " + leftExpr6Def.name + "s.");
 
                 // Check if the left hand side is a valid type
             }
             else if (!leftExpr6Def.name.Equals(rightExpr6Def.name))
             {
-                Console.WriteLine("[" + node.GetGreaterthan().Line + "] : Type mismatch.  Cannot add " + leftExpr6Def.name + " to " +
+                Console.WriteLine("[" + node.GetGreaterthan().Line + "] : Type mismatch.  Cannot compare " + leftExpr6Def.name + " to " +
                     rightExpr6Def.name + ".");
 
                 // Check if types are equal
@@ -481,13 +483,13 @@ namespace ToyLanguage.analysis
             }
             else if (!(leftExpr6Def is BasicTypeDefinition))
             {
-                Console.WriteLine("[" + node.GetGreaterthanorequalto().Line + "] : Invalid Type.  Cannot add " + leftExpr6Def.name + "s.");
+                Console.WriteLine("[" + node.GetGreaterthanorequalto().Line + "] : Invalid Type.  Cannot compare " + leftExpr6Def.name + "s.");
 
                 // Check if the left hand side is a valid type
             }
             else if (!leftExpr6Def.name.Equals(rightExpr6Def.name))
             {
-                Console.WriteLine("[" + node.GetGreaterthanorequalto().Line + "] : Type mismatch.  Cannot add " + leftExpr6Def.name + " to " +
+                Console.WriteLine("[" + node.GetGreaterthanorequalto().Line + "] : Type mismatch.  Cannot compare " + leftExpr6Def.name + " to " +
                     rightExpr6Def.name + ".");
 
                 // Check if types are equal
@@ -535,13 +537,13 @@ namespace ToyLanguage.analysis
             }
             else if (!(leftExpr4Def is BasicTypeDefinition))
             {
-                Console.WriteLine("[" + node.GetEqualityoperator().Line + "] : Invalid Type.  Cannot add " + leftExpr4Def.name + "s.");
+                Console.WriteLine("[" + node.GetEqualityoperator().Line + "] : Invalid Type.  Cannot compare " + leftExpr4Def.name + "s.");
 
                 // Check if the left hand side is a valid type
             }
             else if (!leftExpr4Def.name.Equals(rightExpr5Def.name))
             {
-                Console.WriteLine("[" + node.GetEqualityoperator().Line + "] : Type mismatch.  Cannot add " + leftExpr4Def.name + " to " +
+                Console.WriteLine("[" + node.GetEqualityoperator().Line + "] : Type mismatch.  Cannot compare " + leftExpr4Def.name + " to " +
                     rightExpr5Def.name + ".");
 
                 // Check if types are equal
@@ -574,13 +576,13 @@ namespace ToyLanguage.analysis
             }
             else if (!(leftExpr4Def is BasicTypeDefinition))
             {
-                Console.WriteLine("[" + node.GetNot().Line + node.GetEqualityoperator().Line + "] : Invalid Type.  Cannot add " + leftExpr4Def.name + "s.");
+                Console.WriteLine("[" + node.GetNot().Line + node.GetEqualityoperator().Line + "] : Invalid Type.  Cannot compare " + leftExpr4Def.name + "s.");
 
                 // Check if the left hand side is a valid type
             }
             else if (!leftExpr4Def.name.Equals(rightExpr5Def.name))
             {
-                Console.WriteLine("[" + node.GetNot().Line + node.GetEqualityoperator().Line + "] : Type mismatch.  Cannot add " + leftExpr4Def.name + " to " +
+                Console.WriteLine("[" + node.GetNot().Line + node.GetEqualityoperator().Line + "] : Type mismatch.  Cannot compare " + leftExpr4Def.name + " to " +
                     rightExpr5Def.name + ".");
 
                 // Check if types are equal
@@ -611,9 +613,36 @@ namespace ToyLanguage.analysis
         }
 
         //and expr2
-        //    check if both sides are decorated
-        //    check if both sides are compat types
-        //    check if both sides are booleans
+        public override void OutAAndExpr2(AAndExpr2 node)
+        {
+            Definition lhs, rhs;
+
+            //    check if both sides are decorated
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr2(), out lhs))
+            {
+                Console.WriteLine("[" + node.GetAnd().Line + "] : left hand side of 'and' was not decorated.");
+
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr4(), out rhs))
+            {
+                Console.WriteLine("[" + node.GetAnd().Line + "] : right hand side of 'and' was not decorated.");
+
+            //    check if both sides are bool types
+            }
+            else if (!lhs.name.Equals("boolean") && !rhs.name.Equals("boolean"))
+            {
+                Console.WriteLine("[" + node.GetAnd().Line + "] : Type mismatch.  Cannot or " + lhs.name + " to " +
+                    rhs.name + " because one isnt a boolean.");
+
+            //    decorate
+            }
+            else
+            {
+                TypeDefinition currNodeType = new BasicTypeDefinition();
+                currNodeType.name = lhs.name;
+                _decoratedParseTree.Add(node, currNodeType);
+            }
+        }
 
 
         //pass expr2
@@ -709,21 +738,98 @@ namespace ToyLanguage.analysis
         }
 
         //whilestmt
-        //    check if expr1 is boolean
-        //    check if stmts is decorated
+        public override void OutAWhilestmt(AWhilestmt node)
+        {
+            Definition expr1Def, stmtsDef;
+
+            //    check if expr is decorated
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr1(), out expr1Def))
+            {
+                Console.WriteLine("[" + node.GetClosedparen().Line + "] : left hand side of 'or' was not decorated.");
+            }
+            //    check if boolean
+            else if (!(expr1Def.name.Equals("boolean")))
+            {
+                Console.WriteLine("[" + node.GetClosedparen().Line + "] : Type mismatch." + expr1Def.name + " isnt a boolean.");
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetStmts(), out stmtsDef))
+            {
+                Console.WriteLine("[" + node.GetClosedparen().Line + "] : stmts was not decorated.");
+            }
+        }
 
         //else
-        //    check if decorated, if not decorate
+        public override void OutAElseElsestmt(AElseElsestmt node)
+        {
+            Definition exprsDef;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetStmts(), out exprsDef))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, exprsDef);
+            }
+        }
 
         //ifstmt
-        //    check if expr1 is boolean
-        //    cehck if stmts is decorated
+        public override void OutAIfstmt(AIfstmt node)
+        {
+            Definition expr1Def, stmtsDef;
+
+            //    check if epxr is decorated
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr1(), out expr1Def))
+            {
+                Console.WriteLine("[" + node.GetClosedparen().Line + "] : if expr was not decorated.");
+            }
+            else if (!(expr1Def.name.Equals("boolean")))
+            {
+                Console.WriteLine("[" + node.GetClosedparen().Line + "] : Type mismatch." + expr1Def.name + " isnt a boolean.");
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetStmts(), out stmtsDef))
+            {
+                Console.WriteLine("[" + node.GetClosedparen().Line + "] : stmts was not decorated.");
+            }
+        }
 
         //param
-        //    check if decorated, if not decorate
+        public override void OutAParam(AParam node)
+        {
+            Definition exprsDef;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetExpr1(), out exprsDef))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, exprsDef);
+            }
+        }
 
         //params 
-        //    check if decorated, if not decorate
+        public override void OutAMultipleParams(AMultipleParams node)
+        {
+            Definition paramDef, paramsDef;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetParam(), out paramDef))
+            {
+
+            }
+            if (!_decoratedParseTree.TryGetValue(node.GetParams(), out paramsDef))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, paramDef);
+                _decoratedParseTree.Add(node, paramsDef);
+            }
+        }
 
         //functioncall
         public override void OutAFunctioncall(AFunctioncall node)
@@ -732,7 +838,7 @@ namespace ToyLanguage.analysis
             String funcName = node.GetId().Text;
 
             //    ensure id has been declared
-            if (!_currentSymbolTable.TryGetValue(funcName, out idDef))
+            if (!(_currentSymbolTable.TryGetValue(funcName, out idDef) || _globalSymbolTable.TryGetValue(funcName, out idDef)))
             {
                 Console.WriteLine("[" + node.GetId().Line + "] : " + funcName + " is not defined.");
 
@@ -763,7 +869,7 @@ namespace ToyLanguage.analysis
             String typeName = node.GetType().Text;
             String varName = node.GetVarname().Text;
             //    check type name is defined
-            if (!_currentSymbolTable.TryGetValue(typeName, out typeDef))
+            if (!(_currentSymbolTable.TryGetValue(typeName, out typeDef) || _globalSymbolTable.TryGetValue(typeName, out typeDef)))
             {
                 Console.WriteLine("[" + node.GetType().Line + "] : " + typeName + " is not defined.");
 
@@ -797,7 +903,7 @@ namespace ToyLanguage.analysis
             String varName = node.GetId().Text;
 
             //    ensure id was declared
-            if (!_currentSymbolTable.TryGetValue(varName, out idDef))
+            if (!(_currentSymbolTable.TryGetValue(varName, out idDef) || _currentSymbolTable.TryGetValue(varName, out idDef)))
             {
                 Console.WriteLine("[" + node.GetId().Line + "] : " + varName + " is not defined.");
 
@@ -823,19 +929,112 @@ namespace ToyLanguage.analysis
         }
 
         //declaring assignment
-        //    check type name is defined
-        //    check if type name is defined as a type
-        //    check var name is not define
-        //    add to symbol table
-        //    ensure id is a variable
-        //    ensure expr node is decorated
-        //    ensure expr and ID are same types
+        public override void OutADeclaringAssignstmt(ADeclaringAssignstmt node)
+        {
+            Definition typeDef, exprDef, nameDef;
+            String typeName = node.GetType().Text;
+            String varName = node.GetName().Text;
+
+            if (!_currentSymbolTable.TryGetValue(typeName, out typeDef))
+            {
+                Console.WriteLine("[" + node.GetType().Line + "] : " + typeName + " is not defined.");
+
+                //    check if type name is defined as a type
+            }
+            else if (!(typeDef is TypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetType().Line + "] : " + typeName + " is not a valid type.");
+
+                //    check var name is not defined
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetName(), out nameDef))
+            {
+                Console.WriteLine("[" + node.GetName().Line + "] : " + varName + " is not defined.");
+
+                //    ensure it is a variable type
+            }
+            else if (!(nameDef is VariableDefinition))
+            {
+                Console.WriteLine("[" + node.GetName().Line + "] : " + varName + " is not a valid variable.");
+
+                //    ensure expr node is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr1(), out exprDef))
+            {
+                Console.WriteLine("[" + node.GetName().Line + "] : right hand side was not decorated.");
+
+                //    ensure expr and ID are same types
+            }
+            else if (!typeDef.name.Equals(((VariableDefinition)exprDef).vartype.name))
+            {
+                Console.WriteLine("[" + node.GetName().Line + "] : Invalid assignment. Can not assign " + exprDef.name + " to " +
+                    nameDef.name + ".");
+            }
+            else
+            {
+                VariableDefinition newDef = new VariableDefinition();
+                newDef.name = varName;
+                newDef.vartype = (TypeDefinition)typeDef;
+                _currentSymbolTable.Add(varName, newDef);
+            }
+        }
 
         //parameter
-        //    check if decorated, if not decorate
+        public override void OutAParameter(AParameter node)
+        {
+            Definition typeDef, varDef;
+            String typeName = node.GetType().Text;
+            String varName = node.GetName().Text;
+            //    check type name is defined
+            if (!_currentSymbolTable.TryGetValue(typeName, out typeDef))
+            {
+                Console.WriteLine("[" + node.GetType().Line + "] : " + typeName + " is not defined.");
 
-        //parameters
-        //    check if decorated, if not decorate
+                //    check if type name is defined as a type
+            }
+            else if (!(typeDef is TypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetType().Line + "] : " + typeName + " is not a valid type.");
+
+                //    check var name is not defined
+            }
+            else if (_currentSymbolTable.TryGetValue(varName, out varDef) || _globalSymbolTable.TryGetValue(varName, out varDef))
+            {
+                Console.WriteLine("[" + node.GetName().Line + "] : " + varName + " is already defined.");
+
+                //    add to symbol table
+            }
+            else
+            {
+                VariableDefinition newDef = new VariableDefinition();
+                newDef.name = varName;
+                newDef.vartype = (TypeDefinition)typeDef;
+                _currentSymbolTable.Add(varName, newDef);
+                
+            }
+        }
+
+        //parameters 
+        public override void OutAMultipleParameters(AMultipleParameters node)
+        {
+            Definition parameterDef, parametersDef;
+
+            //    check if decorated, if no decorate
+            if (!_decoratedParseTree.TryGetValue(node.GetParameter(), out parameterDef))
+            {
+
+            }
+            if (!_decoratedParseTree.TryGetValue(node.GetParameters(), out parametersDef))
+            {
+
+            }
+            else
+            {
+                _decoratedParseTree.Add(node, parameterDef);
+                _decoratedParseTree.Add(node, parametersDef);
+            }
+        }
+
 
         //in method
         public override void InAMethod(AMethod node)
@@ -879,7 +1078,7 @@ namespace ToyLanguage.analysis
             String methodName = node.GetId().Text;
 
             //    ensure submethod isnt used
-            if (_currentSymbolTable.TryGetValue(methodName, out def))
+            if (_currentSymbolTable.TryGetValue(methodName, out def) || _globalSymbolTable.TryGetValue(methodName, out def))
             {
                 Console.WriteLine("[" + node.GetOpenparen().Line + "] : " + methodName + " is already declared.");
 
@@ -891,9 +1090,6 @@ namespace ToyLanguage.analysis
                 def.name = node.GetId().Text;
                 ((MethodDefinition)def).paramList = new List<VariableDefinition>();
 
-                //    add a param list if allowed ****EDIT tHIS****
-                ((MethodDefinition)def).paramList.Clear();
-
                 _currentSymbolTable.Add(methodName, def);
             }
         }
@@ -904,10 +1100,56 @@ namespace ToyLanguage.analysis
         }
 
         //constant
-        //    check if type name is defined
-        //    check if type name is defined as a type
-        //    check var name is not defined
-        //    add to global symbolTable
+        public override void OutAConstant(AConstant node)
+        {
+            Definition typeDef, exprDef, nameDef;
+            String typeName = node.GetTypea().Text;
+            String varName = node.GetNamea().Text;
+
+            if (!_globalSymbolTable.TryGetValue(typeName, out typeDef))
+            {
+                Console.WriteLine("[" + node.GetTypea().Line + "] : " + typeName + " is not defined.");
+
+                //    check if type name is defined as a type
+            }
+            else if (!(typeDef is TypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetTypea().Line + "] : " + typeName + " is not a valid type.");
+
+                //    check var name is not defined
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetNamea(), out nameDef))
+            {
+                Console.WriteLine("[" + node.GetNamea().Line + "] : " + varName + " is not defined.");
+
+                //    ensure it is a variable type
+            }
+            else if (!(nameDef is VariableDefinition))
+            {
+                Console.WriteLine("[" + node.GetNamea().Line + "] : " + varName + " is not a valid variable.");
+
+                //    ensure expr node is decorated
+            }
+            else if (!_decoratedParseTree.TryGetValue(node.GetExpr1(), out exprDef))
+            {
+                Console.WriteLine("[" + node.GetNamea().Line + "] : right hand side was not decorated.");
+
+                //    ensure expr and ID are same types
+            }
+            else if (!typeDef.name.Equals(((VariableDefinition)exprDef).vartype.name))
+            {
+                Console.WriteLine("[" + node.GetNamea().Line + "] : Invalid assignment. Can not assign " + exprDef.name + " to " +
+                    nameDef.name + ".");
+            }
+            else
+            {
+                VariableDefinition newDef = new VariableDefinition();
+                newDef.name = varName;
+                newDef.vartype = (TypeDefinition)typeDef;
+                _globalSymbolTable.Add(varName, newDef);
+            }
+        }
+
 
     }
 }
