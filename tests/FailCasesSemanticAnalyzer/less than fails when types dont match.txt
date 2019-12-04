@@ -1,9 +1,0 @@
-main(){
-
-int one := 1;
-float two := 5.3e3;
-
-if(one < two){
-}
-
-}

@@ -1,8 +1,0 @@
-def idk(){
-}
-
-def idk(){
-}
-
-main(){
-}

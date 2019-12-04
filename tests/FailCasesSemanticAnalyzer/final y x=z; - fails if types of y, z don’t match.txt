@@ -1,6 +1,0 @@
-float INNT;
-INNT := 5;
-
-main(){
-
-}

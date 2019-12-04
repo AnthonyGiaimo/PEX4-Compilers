@@ -1,8 +1,0 @@
-main(){
-
-int one := 1;
-float two := 2.1e-1
-
-int three := one + two;
-
-}

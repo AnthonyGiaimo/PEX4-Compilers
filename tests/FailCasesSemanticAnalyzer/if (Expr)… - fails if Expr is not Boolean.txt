@@ -1,8 +1,0 @@
-main(){
-int three := 3;
-int two := 2;
-if(two + three){
-	
-}
-
-}

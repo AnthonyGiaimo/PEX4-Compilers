@@ -1,8 +1,0 @@
-main(){
-
-int one := 1;
-
-if(!one){
-}
-
-}

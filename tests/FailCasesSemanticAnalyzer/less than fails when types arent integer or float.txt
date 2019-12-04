@@ -1,9 +1,0 @@
-main(){
-
-int one := 1;
-string two := "2";
-
-if(one < two){
-}
-
-}
