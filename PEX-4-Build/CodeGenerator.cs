@@ -64,7 +64,7 @@ namespace ToyLanguage.analysis
         public override void InADeclarestmt(ADeclarestmt node)
         {
             _output.Write("\t.locals init(");
-            _output.WriteLine(node.GetTypename().Text + "32 " + node.GetVarname().Text + ")");
+            _output.WriteLine(node.GetType().Text + "32 " + node.GetVarname().Text + ")");
         }
 
         public override void OutAAssignstmt(AAssignstmt node)
